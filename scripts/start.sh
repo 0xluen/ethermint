@@ -15,7 +15,7 @@ IP_ADDR="127.0.0.1"
 MODE="rpc"
 
 KEY="mykey"
-CHAINID="ethermint_9000-1"
+CHAINID="daily_96-1"
 MONIKER="mymoniker"
 
 ## default port prefixes for ethermintd

@@ -1,6 +1,6 @@
 {
   dotenv: '../../../scripts/.env',
-  'ethermint_9000-1': {
+  'daily_96-1': {
     cmd: 'ethermintd',
     'start-flags': '--trace',
     config: {
