@@ -2,7 +2,7 @@
 
 KEY="mykey"
 CHAINID="daily_96-1"
-MONIKER="localtestnet"
+MONIKER="daily-testnet"
 KEYRING="test"
 KEYALGO="eth_secp256k1"
 LOGLEVEL="info"
