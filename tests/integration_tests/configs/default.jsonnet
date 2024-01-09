@@ -1,7 +1,7 @@
 {
   dotenv: '../../../scripts/.env',
   'daily_96-1': {
-    cmd: 'ethermintd',
+    cmd: 'dailyd',
     'start-flags': '--trace',
     config: {
       mempool: {

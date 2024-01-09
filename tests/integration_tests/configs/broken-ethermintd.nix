@@ -1,8 +1,8 @@
 { pkgs ? import ../../../nix { } }:
-let ethermintd = (pkgs.callPackage ../../../. { });
+let dailyd = (pkgs.callPackage ../../../. { });
 in
-ethermintd.overrideAttrs (oldAttrs: {
+dailyd.overrideAttrs (oldAttrs: {
   patches = oldAttrs.patches or [ ] ++ [
-    ./broken-ethermintd.patch
+    ./broken-dailyd.patch
   ];
 })

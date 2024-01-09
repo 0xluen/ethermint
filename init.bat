@@ -17,26 +17,26 @@ set LOGLEVEL="info"
 rem to trace evm
 rem TRACE="--trace"
 set TRACE=""
-set HOME=%USERPROFILE%\.ethermintd
+set HOME=%USERPROFILE%\.dailyd
 echo %HOME%
 set ETHCONFIG=%HOME%\config\config.toml
 set GENESIS=%HOME%\config\genesis.json
 set TMPGENESIS=%HOME%\config\tmp_genesis.json
 
 @echo build binary
-go build .\cmd\ethermintd
+go build .\cmd\dailyd
 
 
 @echo clear home folder
 del /s /q %HOME%
 
-ethermintd config keyring-backend %KEYRING%
-ethermintd config chain-id %CHAINID%
+dailyd config keyring-backend %KEYRING%
+dailyd config chain-id %CHAINID%
 
-ethermintd keys add %KEY% --keyring-backend %KEYRING% --algo %KEYALGO%
+dailyd keys add %KEY% --keyring-backend %KEYRING% --algo %KEYALGO%
 
 rem Set moniker and chain-id for Ethermint (Moniker can be anything, chain-id must be an integer)
-ethermintd init %MONIKER% --chain-id %CHAINID% 
+dailyd init %MONIKER% --chain-id %CHAINID% 
 
 rem Change parameter token denominations to adaily
 cat %GENESIS% | jq ".app_state[\"staking\"][\"params\"][\"bond_denom\"]=\"adaily\""   >   %TMPGENESIS% && move %TMPGENESIS% %GENESIS%
@@ -54,18 +54,18 @@ rem setup
 sed -i "s/create_empty_blocks = true/create_empty_blocks = false/g" %ETHCONFIG%
 
 rem Allocate genesis accounts (cosmos formatted addresses)
-ethermintd add-genesis-account %KEY% 100000000000000000000000000adaily --keyring-backend %KEYRING%
+dailyd add-genesis-account %KEY% 100000000000000000000000000adaily --keyring-backend %KEYRING%
 
 rem Sign genesis transaction
-ethermintd gentx %KEY% 1000000000000000000000adaily --keyring-backend %KEYRING% --chain-id %CHAINID%
+dailyd gentx %KEY% 1000000000000000000000adaily --keyring-backend %KEYRING% --chain-id %CHAINID%
 
 rem Collect genesis tx
-ethermintd collect-gentxs
+dailyd collect-gentxs
 
 rem Run this to ensure everything worked and that the genesis file is setup correctly
-ethermintd validate-genesis
+dailyd validate-genesis
 
 
 
 rem Start the node (remove the --pruning=nothing flag if historical queries are not needed)
-ethermintd start --pruning=nothing %TRACE% --log_level %LOGLEVEL% --minimum-gas-prices=0.0001adaily
+dailyd start --pruning=nothing %TRACE% --log_level %LOGLEVEL% --minimum-gas-prices=0.0001adaily

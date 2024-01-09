@@ -24,7 +24,7 @@ RUN apk add --update ca-certificates jq
 WORKDIR /
 
 # Copy over binaries from the build-env
-COPY --from=build-env /go/src/github.com/evmos/ethermint/build/ethermintd /usr/bin/ethermintd
+COPY --from=build-env /go/src/github.com/evmos/ethermint/build/dailyd /usr/bin/dailyd
 
-# Run ethermintd by default
-CMD ["ethermintd"]
+# Run dailyd by default
+CMD ["dailyd"]

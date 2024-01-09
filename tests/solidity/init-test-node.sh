@@ -27,47 +27,47 @@ USER4_MNEMONIC="doll midnight silk carpet brush boring pluck office gown inquiry
 rm -rf ~/.ethermint*
 
 # Import keys from mnemonics
-echo $VAL_MNEMONIC   | ethermintd keys add $VAL_KEY   --recover --keyring-backend test --algo "eth_secp256k1"
-echo $USER1_MNEMONIC | ethermintd keys add $USER1_KEY --recover --keyring-backend test --algo "eth_secp256k1"
-echo $USER2_MNEMONIC | ethermintd keys add $USER2_KEY --recover --keyring-backend test --algo "eth_secp256k1"
-echo $USER3_MNEMONIC | ethermintd keys add $USER3_KEY --recover --keyring-backend test --algo "eth_secp256k1"
-echo $USER4_MNEMONIC | ethermintd keys add $USER4_KEY --recover --keyring-backend test --algo "eth_secp256k1"
+echo $VAL_MNEMONIC   | dailyd keys add $VAL_KEY   --recover --keyring-backend test --algo "eth_secp256k1"
+echo $USER1_MNEMONIC | dailyd keys add $USER1_KEY --recover --keyring-backend test --algo "eth_secp256k1"
+echo $USER2_MNEMONIC | dailyd keys add $USER2_KEY --recover --keyring-backend test --algo "eth_secp256k1"
+echo $USER3_MNEMONIC | dailyd keys add $USER3_KEY --recover --keyring-backend test --algo "eth_secp256k1"
+echo $USER4_MNEMONIC | dailyd keys add $USER4_KEY --recover --keyring-backend test --algo "eth_secp256k1"
 
-ethermintd init $MONIKER --chain-id $CHAINID
+dailyd init $MONIKER --chain-id $CHAINID
 
 # Set gas limit in genesis
-cat $HOME/.ethermintd/config/genesis.json | jq '.consensus_params["block"]["max_gas"]="10000000"' > $HOME/.ethermintd/config/tmp_genesis.json && mv $HOME/.ethermintd/config/tmp_genesis.json $HOME/.ethermintd/config/genesis.json
+cat $HOME/.dailyd/config/genesis.json | jq '.consensus_params["block"]["max_gas"]="10000000"' > $HOME/.dailyd/config/tmp_genesis.json && mv $HOME/.dailyd/config/tmp_genesis.json $HOME/.dailyd/config/genesis.json
 
 # modified default configs
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    sed -i '' 's/create_empty_blocks = true/create_empty_blocks = false/g' $HOME/.ethermintd/config/config.toml
-    sed -i '' 's/prometheus-retention-time = 0/prometheus-retention-time  = 1000000000000/g' $HOME/.ethermintd/config/app.toml
-    sed -i '' 's/enabled = false/enabled = true/g' $HOME/.ethermintd/config/app.toml
-    sed -i '' 's/prometheus = false/prometheus = true/' $HOME/.ethermintd/config/config.toml
-    sed -i '' 's/timeout_commit = "5s"/timeout_commit = "1s"/g' $HOME/.ethermintd/config/config.toml
+    sed -i '' 's/create_empty_blocks = true/create_empty_blocks = false/g' $HOME/.dailyd/config/config.toml
+    sed -i '' 's/prometheus-retention-time = 0/prometheus-retention-time  = 1000000000000/g' $HOME/.dailyd/config/app.toml
+    sed -i '' 's/enabled = false/enabled = true/g' $HOME/.dailyd/config/app.toml
+    sed -i '' 's/prometheus = false/prometheus = true/' $HOME/.dailyd/config/config.toml
+    sed -i '' 's/timeout_commit = "5s"/timeout_commit = "1s"/g' $HOME/.dailyd/config/config.toml
 else
-    sed -i 's/create_empty_blocks = true/create_empty_blocks = false/g' $HOME/.ethermintd/config/config.toml
-    sed -i 's/prometheus-retention-time  = "0"/prometheus-retention-time  = "1000000000000"/g' $HOME/.ethermintd/config/app.toml
-    sed -i 's/enabled = false/enabled = true/g' $HOME/.ethermintd/config/app.toml
-    sed -i 's/prometheus = false/prometheus = true/' $HOME/.ethermintd/config/config.toml
-    sed -i 's/timeout_commit = "5s"/timeout_commit = "1s"/g' $HOME/.ethermintd/config/config.toml
+    sed -i 's/create_empty_blocks = true/create_empty_blocks = false/g' $HOME/.dailyd/config/config.toml
+    sed -i 's/prometheus-retention-time  = "0"/prometheus-retention-time  = "1000000000000"/g' $HOME/.dailyd/config/app.toml
+    sed -i 's/enabled = false/enabled = true/g' $HOME/.dailyd/config/app.toml
+    sed -i 's/prometheus = false/prometheus = true/' $HOME/.dailyd/config/config.toml
+    sed -i 's/timeout_commit = "5s"/timeout_commit = "1s"/g' $HOME/.dailyd/config/config.toml
 fi
 
 # Allocate genesis accounts (cosmos formatted addresses)
-ethermintd add-genesis-account "$(ethermintd keys show $VAL_KEY   -a --keyring-backend test)" 1000000000000000000000adaily,1000000000000000000stake --keyring-backend test
-ethermintd add-genesis-account "$(ethermintd keys show $USER1_KEY -a --keyring-backend test)" 1000000000000000000000adaily,1000000000000000000stake --keyring-backend test
-ethermintd add-genesis-account "$(ethermintd keys show $USER2_KEY -a --keyring-backend test)" 1000000000000000000000adaily,1000000000000000000stake --keyring-backend test
-ethermintd add-genesis-account "$(ethermintd keys show $USER3_KEY -a --keyring-backend test)" 1000000000000000000000adaily,1000000000000000000stake --keyring-backend test
-ethermintd add-genesis-account "$(ethermintd keys show $USER4_KEY -a --keyring-backend test)" 1000000000000000000000adaily,1000000000000000000stake --keyring-backend test
+dailyd add-genesis-account "$(dailyd keys show $VAL_KEY   -a --keyring-backend test)" 1000000000000000000000adaily,1000000000000000000stake --keyring-backend test
+dailyd add-genesis-account "$(dailyd keys show $USER1_KEY -a --keyring-backend test)" 1000000000000000000000adaily,1000000000000000000stake --keyring-backend test
+dailyd add-genesis-account "$(dailyd keys show $USER2_KEY -a --keyring-backend test)" 1000000000000000000000adaily,1000000000000000000stake --keyring-backend test
+dailyd add-genesis-account "$(dailyd keys show $USER3_KEY -a --keyring-backend test)" 1000000000000000000000adaily,1000000000000000000stake --keyring-backend test
+dailyd add-genesis-account "$(dailyd keys show $USER4_KEY -a --keyring-backend test)" 1000000000000000000000adaily,1000000000000000000stake --keyring-backend test
 
 # Sign genesis transaction
-ethermintd gentx $VAL_KEY 1000000000000000000stake --amount=1000000000000000000000adaily --chain-id $CHAINID --keyring-backend test
+dailyd gentx $VAL_KEY 1000000000000000000stake --amount=1000000000000000000000adaily --chain-id $CHAINID --keyring-backend test
 
 # Collect genesis tx
-ethermintd collect-gentxs
+dailyd collect-gentxs
 
 # Run this to ensure everything worked and that the genesis file is setup correctly
-ethermintd validate-genesis
+dailyd validate-genesis
 
 # Start the node (remove the --pruning=nothing flag if historical queries are not needed)
-ethermintd start --metrics --pruning=nothing --rpc.unsafe --keyring-backend test --log_level info --json-rpc.api eth,txpool,personal,net,debug,web3 --api.enable
+dailyd start --metrics --pruning=nothing --rpc.unsafe --keyring-backend test --log_level info --json-rpc.api eth,txpool,personal,net,debug,web3 --api.enable

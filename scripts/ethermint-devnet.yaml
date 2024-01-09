@@ -1,6 +1,6 @@
 dotenv: .env
 daily_96-1:
-  cmd: ethermintd
+  cmd: dailyd
   start-flags: "--trace"
   app-config:
     minimum-gas-prices: 0adaily

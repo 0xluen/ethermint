@@ -11,10 +11,10 @@ pkill -f "ethermint*"
 make build-ethermint
 
 # if $KEY exists it should be override
-"$PWD"/build/ethermintd keys add $KEY --keyring-backend test --algo "eth_secp256k1"
+"$PWD"/build/dailyd keys add $KEY --keyring-backend test --algo "eth_secp256k1"
 
 # Set moniker and chain-id for Ethermint (Moniker can be anything, chain-id must be an integer)
-"$PWD"/build/ethermintd init $MONIKER --chain-id $CHAINID
+"$PWD"/build/dailyd init $MONIKER --chain-id $CHAINID
 
 # Change parameter token denominations to adaily
 cat $HOME/.ethermint/config/genesis.json | jq '.app_state["staking"]["params"]["bond_denom"]="stake"' > $HOME/.ethermint/config/tmp_genesis.json && mv $HOME/.ethermint/config/tmp_genesis.json $HOME/.ethermint/config/genesis.json
@@ -23,21 +23,21 @@ cat $HOME/.ethermint/config/genesis.json | jq '.app_state["gov"]["deposit_params
 cat $HOME/.ethermint/config/genesis.json | jq '.app_state["mint"]["params"]["mint_denom"]="adaily"' > $HOME/.ethermint/config/tmp_genesis.json && mv $HOME/.ethermint/config/tmp_genesis.json $HOME/.ethermint/config/genesis.json
 
 # Allocate genesis accounts (cosmos formatted addresses)
-"$PWD"/build/ethermintd add-genesis-account "$("$PWD"/build/ethermintd keys show "$KEY" -a --keyring-backend test)" 100000000000000000000adaily,10000000000000000000stake --keyring-backend test
+"$PWD"/build/dailyd add-genesis-account "$("$PWD"/build/dailyd keys show "$KEY" -a --keyring-backend test)" 100000000000000000000adaily,10000000000000000000stake --keyring-backend test
 
 # Sign genesis transaction
-"$PWD"/build/ethermintd gentx $KEY 10000000000000000000stake --amount=100000000000000000000adaily --keyring-backend test --chain-id $CHAINID
+"$PWD"/build/dailyd gentx $KEY 10000000000000000000stake --amount=100000000000000000000adaily --keyring-backend test --chain-id $CHAINID
 
 # Collect genesis tx
-"$PWD"/build/ethermintd collect-gentxs
+"$PWD"/build/dailyd collect-gentxs
 
 # Run this to ensure everything worked and that the genesis file is setup correctly
-"$PWD"/build/ethermintd validate-genesis
+"$PWD"/build/dailyd validate-genesis
 
 # Start the node (remove the --pruning=nothing flag if historical queries are not needed) in background and log to file
-"$PWD"/build/ethermintd start --pruning=nothing --rpc.unsafe --json-rpc.address="127.0.0.1:8545" --keyring-backend test > ethermintd.log 2>&1 &
+"$PWD"/build/dailyd start --pruning=nothing --rpc.unsafe --json-rpc.address="127.0.0.1:8545" --keyring-backend test > dailyd.log 2>&1 &
 
-# Give ethermintd node enough time to launch
+# Give dailyd node enough time to launch
 sleep 5
 
 solcjs --abi "$PWD"/tests/solidity/suites/basic/contracts/Counter.sol --bin -o "$PWD"/tests/solidity/suites/basic/counter
@@ -51,13 +51,13 @@ echo "$ACCT"
 # Start testcases (not supported)
 # curl -X POST --data '{"jsonrpc":"2.0","method":"personal_unlockAccount","params":["'$ACCT'", ""],"id":1}' -H "Content-Type: application/json" http://localhost:8545
 
-#PRIVKEY="$("$PWD"/build/ethermintd keys export $KEY)"
+#PRIVKEY="$("$PWD"/build/dailyd keys export $KEY)"
 
 ## need to get the private key from the account in order to check this functionality.
 cd tests/solidity/suites/basic/ && go get && go run main.go $ACCT
 
 # After tests
-# kill test ethermintd
-echo "going to shutdown ethermintd in 3 seconds..."
+# kill test dailyd
+echo "going to shutdown dailyd in 3 seconds..."
 sleep 3
 pkill -f "ethermint*"
