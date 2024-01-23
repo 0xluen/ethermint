@@ -15,7 +15,7 @@ IP_ADDR="127.0.0.1"
 MODE="rpc"
 
 KEY="mykey"
-CHAINID="daily_96-1"
+CHAINID="daily_4568-1"
 MONIKER="mymoniker"
 
 ## default port prefixes for dailyd

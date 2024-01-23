@@ -1,7 +1,7 @@
 #!/bin/bash
 
 KEY="mykey"
-CHAINID="daily_96-1"
+CHAINID="daily_4568-1"
 MONIKER="localtestnet"
 
 # stop and remove existing daemon and client data and process(es)

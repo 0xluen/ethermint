@@ -1,6 +1,6 @@
 {
   dotenv: '../../../scripts/.env',
-  'daily_96-1': {
+  'daily_4568-1': {
     cmd: 'dailyd',
     'start-flags': '--trace',
     config: {

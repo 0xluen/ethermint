@@ -1,7 +1,7 @@
 local config = import 'default.jsonnet';
 
 config {
-  'daily_96-1'+: {
+  'daily_4568-1'+: {
     config+: {
       tx_index+: {
         indexer: 'null',

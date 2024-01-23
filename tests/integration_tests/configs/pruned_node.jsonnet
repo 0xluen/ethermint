@@ -1,7 +1,7 @@
 local config = import 'default.jsonnet';
 
 config {
-  'daily_96-1'+: {
+  'daily_4568-1'+: {
     'app-config'+: {
       pruning: 'everything',
       'state-sync'+: {
